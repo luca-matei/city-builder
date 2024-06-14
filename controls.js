@@ -35,9 +35,6 @@ export function setupControls(camera, renderer) {
         right.crossVectors(camera.up, direction).normalize();
         forward.crossVectors(right, camera.up).normalize();
 
-        // Invert left and right movements
-        right.negate();
-
         if (keyState['ArrowUp'] || keyState['KeyW']) {
             velocity.add(forward.clone().multiplyScalar(acceleration));
         } else if (velocity.dot(forward) > 0) {
@@ -51,15 +48,15 @@ export function setupControls(camera, renderer) {
         }
 
         if (keyState['ArrowLeft'] || keyState['KeyA']) {
-            velocity.add(right.clone().multiplyScalar(-acceleration));
-        } else if (velocity.dot(right) < 0) {
-            velocity.add(right.clone().multiplyScalar(deceleration));
-        }
-
-        if (keyState['ArrowRight'] || keyState['KeyD']) {
             velocity.add(right.clone().multiplyScalar(acceleration));
         } else if (velocity.dot(right) > 0) {
             velocity.add(right.clone().multiplyScalar(-deceleration));
+        }
+
+        if (keyState['ArrowRight'] || keyState['KeyD']) {
+            velocity.add(right.clone().multiplyScalar(-acceleration));
+        } else if (velocity.dot(right) < 0) {
+            velocity.add(right.clone().multiplyScalar(deceleration));
         }
 
         // Clamp the speed to the maximum speed
